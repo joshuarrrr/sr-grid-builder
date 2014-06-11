@@ -1,0 +1,80 @@
+@import "../../grid-builder.less";
+
+////////////
+// CONFIG //
+////////////
+
+// Specify the number of columns and set column and gutter widths
+@column-width: 60;
+@gutter-width: 20;
+@columns: 12;
+@m-columns: 16;
+@l-columns: 20;
+@mode: "none";
+
+
+.build-rows () {
+  @n: @c / @c;
+  &:nth-child(@{n}n+0) {
+    clear: left;      
+  }
+
+  @media screen and (min-width: 1320px) and (max-width: 1640px) {
+    @nm: @cm / (@cm / 2);
+    .recalc-columns(16);
+    &:nth-child(n) {
+      clear: none;
+    }
+    &:nth-child(@{nm}n+1) {
+      clear: left;      
+    }
+  }
+  @media screen and (min-width: 1640px) {
+    @nl: @cl / (@cl / 2);
+    .recalc-columns(20);
+    &:nth-child(n) {
+      clear: none;
+    }
+    &:nth-child(@{nl}n+1) {
+      clear: left;      
+    }
+  }
+}
+
+.special-report {
+  .features {
+    @c: @columns*(1/2);
+    @cm: @m-columns - @c;
+    @cl: @l-columns - @c;
+
+    .c-layout(@c,@mode:"expand-to-fill");
+
+    .resultsection {
+      .r-layout(@c);
+      .r-med(@c + 4);
+      .r-lrg(@c + 8);
+    }
+
+    .item {
+      .c-layout(@c);
+      .c-med((@cm / 2),@cm);
+      .c-lrg((@cl / 2),@cl);
+      .build-rows;
+    }
+  }
+  .blog-posts {
+    @c: @columns*(1/2);
+    .c-layout(@c,@mode:"fixed")
+  }
+}
+
+.vr {
+  float: left;
+  height: 100%;
+  width: 2px;
+  background: #ddd;
+  margin-left: -1px;
+  margin-right: -1px;
+  margin-bottom: -99999;
+  padding-bottom: 99999;
+}
