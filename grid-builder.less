@@ -1,0 +1,140 @@
+@import "grid.less";
+
+@c: @columns;
+@m-columns: 16;
+@l-columns: 20;
+
+
+/////////////
+// INSTRUX //
+/////////////
+
+/*
+BASIC COLUMNS:
+Layouts are determined primarily by specifying how many columns (of the total "@columns" in the grid) the element spans across. The simplest way to set the width of an element is by using the ".c-layout" mixin. The arguments it takes are:
+    @c: The number of columns to span [all of them]
+    @columns: The number of columns spanned by the parent element [all of them] (see NESTED COLUMNS)
+    @mode: Specifies how the element should change at larger display sizes ["fixed","resize","expand-to-fill"]
+        -fixed: the element will be the same size regardless of display size
+        -resize: the element will maintain its proportions relative to its parent element
+        -expand-to-fill: the element will get wider by the same number of pixels as the parent element. Should be used when the element is sharing a row with a "fixed" element.
+
+The .c-layout mixin automatically creates a print style for each element (using percentage rather than pixel measurements) and a single-column mobile layout (where every element is the full column width)
+
+For elements that span the full width of their parent, there's a convenience mixin:
+  .full-width
+
+
+NESTED COLUMNS:
+Creating nested columns is a bit trickier.
+
+MANUAL MEDIA QUERIES:
+If you need to customize the layout for specific display sizes, there are two additional helpers:
+  .c-med and .c-large
+
+To use these, simply pass the number of columns as the argument. By default, .c-med is a 16-column layout ant .c-large is a 20-column layout.
+
+*/
+
+
+/////////////
+// HELPERS //
+/////////////
+
+.c-layout(@c:@c,@columns:@columns,@mode:@mode) {
+  @fraction: @c/@columns;
+  
+  .recalc-columns(@newcolumns,@index:0) when (@mode = "resize") {
+    .column(@fraction*@newcolumns,@newcolumns);
+  }
+  .recalc-columns(@newcolumns,@index:0) when (@mode = "expand-to-fill") {
+    .column((@c + @newcolumns - @columns),@newcolumns);
+  }
+  
+  .column(@c);
+  display: inline;
+  float: left;
+  
+  @media print {
+    .column-resp(@c);
+  }
+  @media screen and (device-width: 320px) and (device-height: 640px), screen and (min-device-width : 320px) and (max-device-width : 568px), screen and (-webkit-min-device-pixel-ratio: 3.0) {
+    .column(@columns,@columns,100%);
+  }
+  @media screen and (min-width: 1320px) and (max-width: 1640px) {
+    .recalc-columns(16);
+  }
+  @media screen and (min-width: 1640px) {
+    .recalc-columns(20);
+  }
+}
+
+.r-layout(@c:@c) {
+  @fraction: @c/@columns;
+  .recalc-rows(@newcolumns) {
+    & when (@mode = "resize") {
+      .row(@fraction*@newcolumns);
+    }
+    & when (@mode = "expand-to-fill") {
+      .row(@c + @newcolumns - @columns);
+    }
+  }
+  
+  .row(@c);
+  display: block;
+  
+  @media print {
+    .row-resp(@c);
+  }
+  @media screen and (device-width: 320px) and (device-height: 640px), screen and (min-device-width : 320px) and (max-device-width : 568px), screen and (-webkit-min-device-pixel-ratio: 3.0) {
+    .row(@columns,100%);
+  }
+  @media screen and (min-width: 1320px) and (max-width: 1640px) {
+    .recalc-rows(16);
+  }
+  @media screen and (min-width: 1640px) {
+    .recalc-rows(20);
+  }
+}
+
+.c-med(@c:@c,@columns:@columns) {
+  @media screen and (min-width: 1320px) and (max-width: 1640px) {
+    .column(@c,@columns:@columns);
+  }
+}
+
+.c-lrg(@c:@c,@columns:@columns) {
+  @media screen and (min-width: 1640px) {
+    .column(@c,@columns:@columns);
+  }
+}
+
+.r-med(@c:@c) {
+  @media screen and (min-width: 1320px) and (max-width: 1640px) {
+    .row(@c);
+  }
+}
+
+.r-lrg(@c:@c) {
+  @media screen and (min-width: 1640px) {
+    .row(@c);
+  }
+}
+
+.full-width() {
+  .c-layout(@columns,@mode: "expand-to-fill");
+}
+
+/*  Showgrid mixin by ninique at https://github.com/ninique */
+
+.show-grid(){
+  @_column-percent: @column-width/(@column-width+@gutter-width)*100%;
+  @_gutter-percent: @gutter-width/(@column-width+@gutter-width)*50%;
+
+  background-size: @total-width*((@column-width+@gutter-width) / @gridsystem-width);
+  background-image: -moz-linear-gradient(left, rgba(255,0,0,0.05) 0%,rgba(255,0,0,0.05) @_gutter-percent,rgba(255,0,0,0.1) @_gutter-percent,rgba(255,0,0,0.1) @_gutter-percent+@_column-percent,rgba(255,0,0,0.05) @_gutter-percent+@_column-percent);
+  background-image: -webkit-linear-gradient(left, rgba(255,0,0,0.05) 0%,rgba(255,0,0,0.05) @_gutter-percent,rgba(255,0,0,0.1) @_gutter-percent,rgba(255,0,0,0.1) @_gutter-percent+@_column-percent,rgba(255,0,0,0.05) @_gutter-percent+@_column-percent);
+    background-image: -o-linear-gradient(left, rgba(255,0,0,0.05) 0%,rgba(255,0,0,0.05) @_gutter-percent,rgba(255,0,0,0.1) @_gutter-percent,rgba(255,0,0,0.1) @_gutter-percent+@_column-percent,rgba(255,0,0,0.05) @_gutter-percent+@_column-percent);
+  background-image: -ms-linear-gradient(left, rgba(255,0,0,0.05) 0%,rgba(255,0,0,0.05) @_gutter-percent,rgba(255,0,0,0.1) @_gutter-percent,rgba(255,0,0,0.1) @_gutter-percent+@_column-percent,rgba(255,0,0,0.05) @_gutter-percent+@_column-percent);
+  background-image: linear-gradient(left, rgba(255,0,0,0.05) 0%,rgba(255,0,0,0.05) @_gutter-percent,rgba(255,0,0,0.1) @_gutter-percent,rgba(255,0,0,0.1) @_gutter-percent+@_column-percent,rgba(255,0,0,0.05) @_gutter-percent+@_column-percent);
+}
