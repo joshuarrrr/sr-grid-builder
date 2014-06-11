@@ -1,0 +1,141 @@
+@import "http://spectrum.ieee.org/assets/css/site4.css"; //ONLY FOR LOCAL TESTING -- REMOVE BEFORE PROCESSING FOR PRODUCTION
+@import "../../static-overrides.less";
+
+@header-color: #575757;
+@accent-color: rgb(255,77,31);
+
+@media screen and (min-device-width: 568px) {
+    h2 {
+        margin-bottom: 0;
+        color: @header-color;
+        font-family: "Theinhardt-Regular", sans-serif;
+    }
+
+
+    // main column
+    .futures {
+        .rows {
+            article {
+                margin-bottom: 1em;
+            }
+        }
+    }
+
+    .the-rest {
+        padding-top: 20px;
+        margin-bottom: 35px;
+        article {
+            margin-bottom: 1em;
+        }
+    }
+
+    .row {
+        clear: both;
+        overflow: hidden;
+    }
+
+    .row.border-h, .row.border-after {
+        margin-bottom: 20px;
+    }
+
+    .row.border-after:after {
+        height: 3px;
+        background: #ddd;
+        content: "";
+        display: block;
+        margin: 0 10px;
+        clear: both;
+    }
+
+    .row.border-h {
+        padding: 10px 0;
+        margin: 30px 0;
+        /*padding-top: 35px;*/ 
+    }
+    .row.border-h:before, .row.the-rest:before {
+        height: 3px;
+        background: #ddd;
+        content: "";
+        display: block;
+        margin: 0 10px 1em 10px;
+    }
+
+    .row.border-h:after, .row.the-rest:after {
+        height: 3px;
+        background: #ddd;
+        content: "";
+        display: block;
+        margin: 0 10px;
+        clear: both;
+    }
+
+    .row.thick:before, .row.thick:after {
+        height: 5px;
+    }
+}
+
+@media screen and (min-width: 1320px) {
+    .special-report {
+    	.band-text {
+            .extended {
+                -moz-column-count: 2;
+                -moz-column-gap: 20px;
+                -webkit-column-count: 2;
+                -webkit-column-gap: 20px;
+                column-count: 2;
+                column-gap: 20px;
+            }
+        }
+    }
+}
+
+.special-report {
+
+    .show-grid;
+
+    h3.intro {
+        margin: 0 0 2px;
+        text-transform: uppercase;
+        font-size: 16px;
+        font-family: "Theinhardt-Regular", sans-serif;
+        line-height: 1em;
+    }
+
+    .accent {
+        color: @accent-color!important;
+    }
+
+    .item p .accent {
+        font-family: "Theinhardt-Regular", sans-serif;
+        text-transform: uppercase;
+    }
+
+    .band-box {
+        margin-bottom: 1em;
+    }
+
+    .item.band-text p {
+        font-size: 22px;
+    }
+
+    .unpublished {
+        opacity: .5;
+    }
+    .extended {
+        display: none;
+    }
+    .futures .rows h2, .multimedia h2, .the-rest h2 {
+        font-size: 25px;
+        margin-bottom: 1em;
+    }
+    .futures .alpha {
+        clear: left;
+    }
+    figure {
+        margin: 0;
+    }
+    img {
+        max-width: 100%;
+    }
+
+}

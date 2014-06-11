@@ -1,0 +1,91 @@
+@import "../../grid-builder.less";
+
+////////////
+// CONFIG //
+////////////
+
+// Specify the number of columns and set column and gutter widths
+@column-width: 60;
+@gutter-width: 20;
+@columns: 12;
+@mode: "none";
+
+
+//intro section
+.report-description {
+  @c: @columns*(1/3);
+  .main {
+    .c-layout(@columns - @c,@mode: "expand-to-fill");
+  }
+  .secondary {
+    .c-layout(@c,@mode: "fixed");
+  }
+}
+
+//band
+.band-text {
+  .full-width;
+}
+
+// main column
+.main {
+  .clearfix;
+}
+.futures {
+  @c: @columns*(1/2);
+  @cm: @c + (@c/2);
+  @cl: @cm + (@c/2);
+  .c-layout(@c);
+  .c-med(@cm);
+  .c-lrg(@cl);
+  
+  
+  .rows {
+    .r-layout(@c);
+    .r-med(@cm);
+    .r-lrg(@cl);
+    
+    article {
+      .c-layout((@c/2),@c,@mode: "fixed");
+      .c-lrg((@c/2)+1);
+      
+    }
+    h2 {
+      .c-layout(@c, @c);
+      .c-med(@cm, @cm);
+      .c-lrg(@cl, @cl);
+    }
+  }
+}
+
+// sidebar
+.multimedia {
+  article, h2 {
+    @c: @columns*(1/2);
+    .c-layout(@c);
+    .c-med(@c+1);
+    .c-lrg(@c+2);
+  }
+  .clearfix;
+}
+
+.the-rest {
+  article {
+    @c: @columns*(1/4);
+    .c-layout(@c,@mode: "resize");
+  }
+  h2 {
+    .full-width;
+  }
+}
+
+.vr {
+  float: left;
+  height: 100%;
+  width: 4px;
+  background: #ddd;
+  margin-left: -2px;
+  margin-right: -2px;
+  margin-bottom: -99999;
+  padding-bottom: 99999;
+}
